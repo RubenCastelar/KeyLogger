@@ -35,4 +35,5 @@ El keylogger implementado cuenta con las siguientes características:
 Compilar el keylogger en entorno Windows:
 
 ```bash
-gcc -o keylogger keylogger.c
+gcc -Wall -Wextra -g3 <fichero.c> -o <ruta ejecutable> -lws2_32 -mwindow
+
