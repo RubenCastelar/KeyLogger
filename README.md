@@ -14,7 +14,6 @@ Este software se proporciona **exclusivamente con fines académicos**. **No debe
 
 - Registro de todas las pulsaciones del teclado, incluidas teclas especiales.
 - Envío de logs de teclas mediante:
-  - Socket a servidor remoto (Python).
   - Webhook de Discord (configurable).
 - Persistencia opcional en el sistema.
 - Técnicas básicas de evasión antivirus (ofuscación de código y nombre).
