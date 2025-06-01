@@ -1,6 +1,6 @@
 # 🛡️ Keylogger en Windows con Técnicas de Evasión - Análisis y Explotación
 
-Este repositorio contiene el código fuente de un **keylogger para sistemas Windows**, desarrollado con fines **educativos y de investigación en ciberseguridad**. También se incluye un servidor en Python que permite recibir remotamente la información capturada desde una máquina vulnerada.
+Este repositorio contiene el código fuente de un **keylogger para sistemas Windows**, desarrollado con fines **educativos y de investigación en ciberseguridad**. También se incluye un servidor en Python que permite recibir remotamente la información capturada desde una máquina vulnerada, o bien enviarla a través de un **webhook de Discord**.
 
 ---
 
@@ -10,30 +10,23 @@ Este software se proporciona **exclusivamente con fines académicos**. **No debe
 
 ---
 
-## 🧠 Descripción técnica
-
-El keylogger implementado cuenta con las siguientes características:
+## 🎯 Funcionalidades
 
 - Registro de todas las pulsaciones del teclado, incluidas teclas especiales.
-- Ejecución en **segundo plano**, con nombre de proceso disfrazado (`WinUpdate.exe`).
-- Mecanismo de **persistencia** mediante modificación del registro:
-
-- **Evasión de entornos de análisis** (sandbox, máquinas virtuales, debugging).
-- Ofuscación de cadenas y aumento de la entropía del binario para reducir detección por antivirus.
-
----
-
-## 📁 Archivos del repositorio
-
-- `keylogger.c`: Código fuente del keylogger en C. Registra las pulsaciones y las guarda localmente en `log.txt`.
-- `servidor.py`: Script en Python que actúa como **servidor receptor**, permitiendo recibir el archivo `log.txt` a través de una conexión por sockets.
+- Envío de logs de teclas mediante:
+  - Socket a servidor remoto (Python).
+  - Webhook de Discord (configurable).
+- Persistencia opcional en el sistema.
+- Técnicas básicas de evasión antivirus (ofuscación de código y nombre).
+- Modo oculto: el proceso no muestra ventana visible para el usuario.
 
 ---
 
-## 🛠️ Compilación
+## 🧪 Uso
 
-Compilar el keylogger en entorno Windows:
+### 1. Compilar el keylogger
+
+Compila el archivo `keylogger.cpp` con un compilador como MinGW:
 
 ```bash
-gcc -Wall -Wextra -g3 <fichero.c> -o <ruta ejecutable> -lws2_32 -mwindow
-
+x86_64-w64-mingw32-gcc keylogger.c -o keylogger.exe -mwindows -lwininet
